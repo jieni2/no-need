@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>dda</title>
+<link type="text/css" rel="stylesheet" href="css/fonts/iconfont.css" />
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="container"></div>
+<template id="template1">
+	<div class="main">
+		<div id="scrollTopPos" class="scroll_top_pos"></div>
+		<!--<div class="video_box">
+			<video ref="video" class="video" autoplay mediatype="video" :src="video"></video>
+		</div>-->
+		<div :class="['con', {up: isUp}]" :style="{'transform': 'translateY(' + (150) + 'px)', 'min-height': (isUp ? screenHeight : (screenHeight - 150)) + 'px'}">
+			<div class="top_word">
+				<div class="word">ad plus</div>
+				<div class="local">Home / <span class="cur">index</span></div>
+			</div>
+			<header id="header">
+				<div class="header">
+                    <a href="##"><img src="css/images/logo.png" style="width: 64px;height: 64px;" /></a>
+					<ul class="nav">
+						<li><a href="index.html">HOME</a></li>
+						<li><a href="calc.html">calc</a></li>
+						<li class="cur"><a href="##">aboutus</a></li>
+						<li><a href="news.html">news</a></li>
+						<li><a href="map.html">map</a></li>
+						<li><a href="recipe.html">recipe</a></li>
+					</ul>
+				</div>
+			</header>
+            <div class="heading-section" style="padding: 50px 0 0 0;">
+                <h2>About Diabetes</h2>
+                <div class="aboutus">
+                    <h3>Diabetes is a chronic condition where a person has high blood glucose (sometimes called blood sugar) levels. For our bodies to work properly we need to convert glucose (sugar) from food into energy.</h3>
+                    <br>
+                    <h3>To understand diabetes, it’s helpful to understand the basics of how your body metabolises (breaks down) blood glucose. Most of the cells in your body need glucose as a source of energy. When you eat carbohydrates, such as a bowl of cereal, pasta or fruit, your digestive system breaks down the carbohydrates into glucose (simple sugars), which travel through your bloodstream to energise cells.</h3>
+                    <br>
+                    <h3>Insulin is released by the beta cells in response to the rise in blood glucose levels after eating. Insulin directs the glucose into the liver and muscle cells, promoting the storage of nutrients and preventing your blood glucose levels to rise excessively. Insulin also increases the uptake of amino acids (building blocks of protein) and fatty acids (building blocks of fats) into protein and fat stores. Insulin is therefore important for regulating metabolism by promoting energy storage and cell growth.</h3>
+                    <br>
+                    <h3>The liver converts glucose that is not needed immediately for energy into glycogen (which is stored in the liver). When blood glucose levels drop too low, insulin secretion falls and your pancreas releases the hormone glucagon, which prompts your liver to reconvert stored glycogen into glucose and release into the bloodstream. A normal functioning pancreas ensures there is a staple supply of nutrients for your body. This is important for certain organs such as your brain which depend on a steady supply of glucose.</h3>
+                    <br>
+                    <h3>In people with diabetes, insulin is no longer produced or not produced in sufficient amounts by the body. Instead of being turned into energy the glucose stays in the blood resulting in high blood glucose levels. After eating, the glucose is carried xaround your body in your blood. Your blood glucose level is called glycaemia.</h3>
+                    <br>
+                    <h3>In a person who is overweight or obese, the cells of the body become less responsive to insulin, which in turn causes the body to secrete more insulin to maintain normal metabolism. The pancreas would usually try and compensate for this resistance by pumping out more insulin, for most people with insulin resistance, blood glucose levels stay within a normal range. But for some people, the insulin producing cells fail to keep up with this demand with blood glucose levels rising and resulting in Type 2 diabetes. (In Type 1 Diabetes, the person’s immune system attacks and destroys the insulin-producing cells in the pancreas.</h3>
+                    <br>
+                    <h3>While there is currently no cure for diabetes, you can live an enjoyable life by learning about the condition and effectively managing it. Blood glucose levels can be monitored and managed through self-care, lifestyle changes and treatment.</h3>
+                </div>
+                <h2>The type 2 of diabetes</h2>
+                <div class="aboutus">
+                    <h3>Type 2: A progressive condition in which the body becomes resistant to the normal effects of insulin and/or gradually loses the capacity to produce enough insulin in the pancreas. Type 2 diabetes is one of the major consequences of the obesity epidemic. The combination of significant changes to diet and the food supply, combined with changes to physical activity with more sedentary work and less activity, means most populations around the world are seeing more type 2 diabetes. Type 2 diabetes also has strong genetic and family related risk factors. Type 2 diabetes accounts for 85% of all diabetes and is increasing.</h3>
+                </div>
+                <h2>Can Type 2 diabetes be avoided?</h2>
+                <div class="aboutus">
+                    <h3>Being diagnosed with impaired glucose metabolism doesn’t mean that you will get type 2 diabetes but you are at a 10-20 times greater risk than those with normal blood glucose levels. Strong evidence shows that type 2 diabetes can be prevented in up to 58% of cases in the high risk (pre-diabetes) population by eating well and exercising..</h3>
+                </div>
+                <h2>The importance of healthy meals when you’re over 65</h2>
+                <div class="aboutus">
+                    <h3>Now you’re older, you may find it difficult to get out to buy groceries, or you may feel like your appetite has reduced or disappeared. Health issues may also make it difficult to eat or enjoy foods.</h3>
+                    <br>
+                    <h3>If you can, try to see every meal and snack as a chance to give your body maximum nutrition (like vitamins, minerals and fibre) – and as a social activity you can enjoy with others if possible.</h3>
+                    <br>
+                    <h3>Ask for help with shopping or meal preparation, if you need it, from family and friends, community groups, carers, or your doctor.</h3>
+                    <br>
+                    <h3>Keep the following health matters in mind too.</h3>
+                </div>
+            </div>
+		</div>
+	</div>
+</template>
+<script src="js/jquery.min.js"></script>
+<script src="js/vue.min.js"></script>
+<script>
+$(function(){
+	new Vue({
+		el:'#container',
+		template: '#template1',
+		data:{
+		  video: '',
+		  screenHeight: 0,
+		  isUp: true
+		},
+		mounted() {
+			this.init();
+		},
+		methods: {
+			init() {
+				this.screenHeight = document.documentElement.clientHeight;
+				console.log(this.screenHeight);
+				this.video = 'video/video.mp4'
+			},
+			changeUp() {
+				this.isUp = !this.isUp;
+			}
+		}
+	});
+});
+</script>
+</body>
+</html>

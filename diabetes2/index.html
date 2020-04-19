@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Diabetes</title>
+    <link type="text/css" rel="stylesheet" href="css/fonts/iconfont.css"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div id="container"></div>
+<template id="template1">
+    <div class="main index_main">
+        <div id="scrollTopPos" class="scroll_top_pos"></div>
+        <div class="video_box">
+            <video ref="video" :style="videoStyle" class="video" muted loop autoplay mediatype="video"
+                   :src="video"></video>
+        </div>
+        <div :class="['con', {up: isUp}]"
+             :style="{'transform': 'translateY(' + (screenHeight - 109) + 'px)', 'min-height': (isUp ? screenHeight : (screenHeight - 109)) + 'px'}">
+            <div class="top_word">
+                <div class="word">ad plus</div>
+                <div class="local">Home / <span class="cur">index</span></div>
+            </div>
+            <header id="header">
+                <div class="header">
+                    <a href="#"><img src="css/images/logo.png" alt="" style="width: 64px;height: 64px;"/></a>
+                    <ul class="nav">
+                        <li class="cur"><a href="#">home</a></li>
+                        <li><a href="calc.html">CALC</a></li>
+                        <li><a href="aboutus.html">ABOUTUS</a></li>
+                        <li><a href="news.html">NEWS</a></li>
+                        <li><a href="map.html">MAP</a></li>
+                        <li><a href="recipe.html">RECIPE</a></li>
+                    </ul>
+                    <i :class="['iconfont', 'icon-below-s', 'arrow', {up: isUp}]" @click="changeUp"></i>
+                </div>
+            </header>
+            <div class="index" :style="{'min-height': (screenHeight - 109) + 'px'}">
+                <div class="heading-section">
+                    <h2>About us</h2>
+                    <p class="p">
+                        Our team mainly focuses on the current situation of elderly diabetic patients in
+                        Australia. The website would offer senior people to develop a healthy diet by establishing a
+                        network platform to remind harmful substances, identify nutritional content and health graded.
+                        The long-term target of the website is to cultivate user have good diet habits from follow the
+                        diet recipe.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script src="js/jquery.min.js"></script>
+<script src="js/vue.min.js"></script>
+<script>
+    $(function () {
+        new Vue({
+            el: '#container',
+            template: '#template1',
+            data: {
+                video: '',
+                screenWidth: 0,
+                screenHeight: 0,
+                isUp: false,
+                ratio: 800 / 450,
+            },
+            computed: {
+                videoStyle() {
+                    let videoWidth = 0;
+                    let videoHeight = 0;
+                    videoWidth = this.screenWidth;
+                    videoHeight = videoWidth / this.ratio;
+                    if (videoHeight < this.screenHeight) {
+                        videoHeight = this.screenHeight;
+                        videoWidth = videoHeight * this.ratio;
+                    }
+                    return 'width: ' + videoWidth + 'px;' + 'height: ' + videoHeight + 'px;';
+                }
+            },
+            mounted() {
+                this.init();
+                setTimeout(() => {
+                    this.isUp = true;
+                }, 3000);
+            },
+            methods: {
+                init() {
+                    this.screenWidth = document.documentElement.clientWidth;
+                    this.screenHeight = document.documentElement.clientHeight;
+                    this.video = 'video/video.mp4'
+                },
+                changeUp() {
+                    this.isUp = !this.isUp;
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

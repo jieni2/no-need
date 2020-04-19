@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Diabetes-Calc</title>
+    <link type="text/css" rel="stylesheet" href="css/fonts/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="css/iview.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <style>
+        .ivu-transfer-list {
+            width: 45%;
+        }
+
+        .ivu-row {
+            margin: 5px 0;
+        }
+
+        .calc-result-box > div {
+            padding: 8px 0;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<template id="template1">
+    <div class="main">
+        <div id="scrollTopPos" class="scroll_top_pos"></div>
+        <div :class="['con', {up: isUp}]"
+             :style="{'transform': 'translateY(' + (150) + 'px)', 'min-height': (isUp ? screenHeight : (screenHeight - 150)) + 'px'}">
+            <header id="header">
+                <div class="header">
+                    <a href="#"><img src="css/images/logo.png" alt="" style="width: 64px;height: 64px;"/></a>
+                    <ul class="nav">
+                        <li><a href="index.html">HOME</a></li>
+                        <li class="cur"><a href="#">CALC</a></li>
+                        <li><a href="aboutus.html">ABOUTUS</a></li>
+                        <li><a href="news.html">NEWS</a></li>
+                        <li><a href="map.html">MAP</a></li>
+                        <li><a href="recipe.html">RECIPE</a></li>
+                    </ul>
+                </div>
+            </header>
+            <div class="calc">
+                <div class="heading-section">
+                    <h2>Fill your information</h2>
+                    <div class="form  fill_form">
+                        <i-form ref="form" :model="formItem" :label-width="180">
+                            <form-item label="Gender : " prop="">
+                                <i-select v-model="formItem.gender">
+                                    <i-option value="male">male</i-option>
+                                    <i-option value="female">female</i-option>
+                                </i-select>
+                            </form-item>
+                            <form-item label="Weight : " prop="">
+                                <i-input v-model="formItem.weight" placeholder="">
+                                    <template slot="append">Kg</template>
+                                </i-input>
+                            </form-item>
+                            <form-item label="Height : " prop="">
+                                <i-input v-model="formItem.height" placeholder="">
+                                    <template slot="append">cm</template>
+                                </i-input>
+                            </form-item>
+                            <form-item label="Age : " prop="">
+                                <i-input v-model="formItem.age" placeholder="">
+                                </i-input>
+                            </form-item>
+                            <form-item label="Physical Activity Level : " prop="">
+                                <radio-group v-model="formItem.type">
+                                    <radio class="radio" label="No Active."></radio>
+                                    <radio class="radio" label="Light Active."></radio>
+                                    <radio class="radio" label="Moderately Active."></radio>
+                                    <radio class="radio" label="Very Active."></radio>
+                                </radio-group>
+                            </form-item>
+                            <form-item>
+                                <i-button type="primary" class="btn submit_btn" @click="handleSubmit">Calculate
+                                </i-button>
+                            </form-item>
+                        </i-form>
+                    </div>
+                    <div class="form calc-result-box" style="padding-left: 50px;">
+                        <div>
+                            Your BMI is :
+                        </div>
+                        <div>
+                            This means you are :
+                        </div>
+                        <div>
+                            Your BMR is :
+                        </div>
+                        <div>
+                            Your Daily Caloric Intake :
+                        </div>
+                        <div style="padding-left: 30px;">
+                            Breakfast :
+                        </div>
+                        <div style="padding-left: 30px;">
+                            Lunch :
+                        </div>
+                        <div style="padding-left: 30px;">
+                            Dinner :
+                        </div>
+                    </div>
+                    <h2>Manage Your Daily Meals</h2>
+                    <div class="form form2">
+                        <i-input search enter-button="Search" placeholder="Enter something..."></i-input>
+                        <br>
+                        <Card :bordered="false" dis-hover>
+                            <p slot="title">Food list</p>
+                            <i-table :content="self" :columns="columns1" :data="data1" :no-data-text="noDataText"></i-table>
+                        </Card>
+                        <Card :bordered="false" dis-hover>
+                            <p slot="title">Selected food list</p>
+                            <i-table :content="self" :columns="columns2" :data="data2" :no-data-text="noDataText"></i-table>
+                        </Card>
+                        <Row style="text-align: center;">
+                            <i-col span="24">
+                                <i-button type="primary">Submit</i-button>
+                            </i-col>
+                        </Row>
+                        <Row style="text-align: center;">
+                            <div>show result</div>
+                        </Row>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script src="js/jquery.min.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="js/iview.min.js"></script>
+<script>
+    $(function () {
+        new Vue({
+            el: '#container',
+            template: '#template1',
+            data: {
+                self: this,
+                video: '',
+                screenHeight: 0,
+                isUp: true,
+                formItem: {
+                    input: '',
+                    select: 'shanghai',
+                    gender: 'male'
+                },
+                formItem2: {
+                    input: '',
+                    select: 'shanghai',
+                    gender: 'male'
+                },
+                formItem3: {},
+                titles: ['Food list', 'Selected food list'],
+                data4: [],
+                targetKeys4: [],
+                noDataText: 'No data',
+                columns1: [
+                    {
+                        title: 'Food name',
+                        key: 'foodName'
+                    },
+                    {
+                        title: 'Quantity',
+                        key: 'quantity'
+                    },
+                    {
+                        title: 'Serving size',
+                        key: 'servingSize'
+                    },
+                    {
+                        title: 'Option',
+                        key: 'option',
+                        render(row, column, index) {
+                            return `<i-button type="primary" size="small" @click="add(${index})">add</i-button>`;
+                        }
+                    }
+                ],
+                data1: [
+                    {
+                        foodName: '100 GRAND Bar',
+                        quantity: 1,
+                        servingSize: '100.0 g'
+                    },
+                    {
+                        foodName: '100 GRAND Bar',
+                        quantity: 1,
+                        servingSize: '100.0 g'
+                    },
+                    {
+                        foodName: '100 GRAND Bar',
+                        quantity: 1,
+                        servingSize: '100.0 g'
+                    },
+                    {
+                        foodName: '100 GRAND Bar',
+                        quantity: 1,
+                        servingSize: '100.0 g'
+                    }
+                ],
+                columns2: [
+                    {
+                        title: 'Food name',
+                        key: 'foodName'
+                    },
+                    {
+                        title: 'Quantity',
+                        key: 'quantity'
+                    },
+                    {
+                        title: 'Serving size',
+                        key: 'servingSize'
+                    },
+                    {
+                        title: 'Polyunsaturated fatty acids(g)',
+                        key: 'acids'
+                    },
+                    {
+                        title: 'Zinc(mg)',
+                        key: 'zinc'
+                    },
+                    {
+                        title: 'Protein(g)',
+                        key: 'protein'
+                    },
+                    {
+                        title: 'Iron(mg)',
+                        key: 'iron'
+                    },
+                    {
+                        title: 'Magnesium(mg)',
+                        key: 'magnesium'
+                    },
+                    {
+                        title: 'Option',
+                        key: 'option',
+                        render(row, column, index) {
+                            return `<i-button type="error" size="small" @click="remove(${index})">remove</i-button>`;
+                        }
+                    }
+                ],
+                data2: []
+            },
+            mounted() {
+                this.init();
+            },
+            methods: {
+                init() {
+                    this.screenHeight = document.documentElement.clientHeight;
+                    console.log(this.screenHeight);
+                    this.video = 'video/video.mp4';
+                    this.data4 = this.getMockData();
+                },
+                changeUp() {
+                    this.isUp = !this.isUp;
+                },
+                handleSubmit() {
+                    for (let key in this.formItem) {
+                        this.formItem2[key] = this.formItem[key];
+                    }
+                    this.handleReset();
+                },
+                handleReset() {
+                    this.$refs['form'].resetFields();
+                },
+                getMockData() {
+                    let mockData = [];
+                    for (let i = 1; i <= 20; i++) {
+                        mockData.push({
+                            key: i.toString(),
+                            label: 'Content ' + i,
+                            description: 'The desc of content  ' + i
+                        });
+                    }
+                    return mockData;
+                },
+                handleChange4(newTargetKeys) {
+                    this.targetKeys4 = newTargetKeys;
+                },
+                render4(item) {
+                    return item.label + ' - ' + item.description;
+                },
+                add(index) {
+
+                },
+                remove(index) {
+
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
